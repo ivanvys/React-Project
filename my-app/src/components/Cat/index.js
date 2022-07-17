@@ -1,10 +1,10 @@
 import carImage from "../../components/Cat/static/cat.jpg";
 import style from "./index.module.css";
 
-const Cat = () => {
+const Cat = (props) => {
   return (
-    <div className={style.wripper}>
-      <img src={carImage} width={100} height={100}></img>
+    <div className={style.wrapper}>
+      <img className={style.carImage} src={carImage} alt="cat"></img>
     </div>
   );
 };

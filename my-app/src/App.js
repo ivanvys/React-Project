@@ -1,18 +1,16 @@
-import "./App.css";
+import style from "./App.module.css";
 import { summ, summ2 } from "./someJs";
 import User from "./components/User/User";
-import Cat from "./components/Cat/index";
-const App = () => {
-  console.log(summ(1, 2));
-  console.log(summ2(1, 23));
+import Kek from "./components/Cat/index";
+const App = (props) => {
   // User - это объект
   return (
-    <div>
-      <User name="Vanya" age={10} />
-      <User name="Alex" age={10} />
+    <div className={style.wripper}>
+      <Kek />
+      <User name="Vanya" age={summ(8, 20)} />
+      <User name="Alex" age={summ2(5, 5)} />
       <User name="Oleg" age={10} />
       <User name="Alex" age={10} />
-      <Cat />
     </div>
   );
 };

@@ -1,7 +1,25 @@
 .wrapper {
-    border: 1px solid red;
+    width: 300px;
+    border: 3px solid red;
     align-items: center;
-    background-color: yellow;
+    background-color: wheat;
     margin: 0 auto;
+    display: flex;
+    justify-content: center;
+    margin: 0 auto;
+}
+.wrapper:hover{
+    border:3px solid green;
+}
+.letters {
+    color: violet;
+}
+.letters:hover{
+    color: black;
+    border: 1px solid blue;
+}
 
+.numbers {
+    color: forestgreen;
+    font-size: 30px;
 }

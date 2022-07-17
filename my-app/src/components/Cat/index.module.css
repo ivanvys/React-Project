@@ -1,4 +1,17 @@
 .wrapper {
-  background-color: blueviolet;
+  background-color: aqua;
+  display: flex;
+  justify-content: center;
+  margin: 0 auto;
 
+}
+.carImage {
+  width: 300px;
+  height: auto;
+  border: 10px solid darkblue;
+}
+.carImage:hover {
+  transition: 1s;
+  width: 320px;
+  border: 10px solid gold;
 }

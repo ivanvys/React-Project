@@ -1,3 +1,8 @@
+.wripper {
+  height: auto;
+  background-color: aqua;
+}
+
 .App {
   text-align: center;
 }
@@ -13,7 +18,7 @@
   }
 }
 
-.App-header {
+.App_header {
   background-color: #282c34;
   min-height: 100vh;
   display: flex;
