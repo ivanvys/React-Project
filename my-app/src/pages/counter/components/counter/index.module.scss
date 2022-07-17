@@ -1,0 +1,61 @@
+.wrapper{
+    max-width: 250px;
+    padding: 25px;
+border: 3px solid black;
+border-radius: 20px;
+}
+
+.screen{
+    font-size: 30px;
+    font-family: 'Franklin Gothic Medium';
+    max-width: 85%;
+    padding: 10px;
+    margin: 0 auto 25px;
+    border: 3px solid black;
+    border-radius: 20px;
+    text-align: center;
+}
+
+.isEven{
+    background-color: red;
+    transition: 0.3s;
+}
+
+.isOdd{
+    background-color: blue;
+    transition: 0.3s;
+}
+.evenOrOddScreen{
+    height: 33px;
+    font-size: 18px;
+    font-family: 'Franklin Gothic Medium';
+    max-width: 85%;
+    padding: 10px;
+    margin: 0 auto 25px;
+    border: 3px solid black;
+    border-radius: 20px;
+    text-align: center;
+}
+
+.change {
+    transition: 1s;
+}
+.buttonsArea {
+    display: flex;
+    justify-content: space-between
+
+}
+
+.buttonStyles {
+    width: 75px;
+    font-family: 'Franklin Gothic Medium';
+    border: 2px solid black;
+    border-radius: 5px;
+    cursor: pointer;
+    &:hover {
+        background-color: wheat;
+    }
+    &:active {
+        border: 2px solid red;
+    }
+}

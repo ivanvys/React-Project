@@ -1,11 +1,10 @@
 import styles from "./user.module.css";
 
-const User = (props) => {
-  console.log(props);
+const User = ({ name, age }) => {
   return (
     <div className={styles.wrapper}>
-      <p> {props.name} </p>
-      <p>{props.age}</p>
+      <p className={styles.letters}> {name} </p>
+      <p className={styles.numbers}> {age} </p>
     </div>
   );
 };
