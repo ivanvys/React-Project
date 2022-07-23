@@ -2,17 +2,23 @@ import PropTypes from "prop-types";
 
 import styles from "./index.module.scss";
 
-const Counter = ({ startValue, isEven, plus, minus, reset }) => {
+import { memo } from "react";
+import { Link } from "react-router-dom";
+import ROUTE_NAMES from "../../router/routeNames";
+
+const Counter = ({ startValue, plus, minus, reset }) => {
+  console.log("Render");
   return (
     <div className={styles.wrapper}>
       <div
-        className={`${styles.screen} ${
-          startValue % 2 === 0 ? styles.isEven : styles.isOdd
-        }`}
+        className={styles.screen}
+        style={{ background: startValue % 2 === 0 ? "red" : "yellow" }}
       >
         {startValue}
       </div>
-      <div className={styles.evenOrOddScreen}>{isEven}</div>
+      <div className={styles.evenOrOddScreen}>
+        {startValue % 2 === 0 ? "Чётное" : "Нечетное"}
+      </div>
       <div className={styles.buttonsArea}>
         <button onClick={minus} className={styles.buttonStyles}>
           -
@@ -24,15 +30,15 @@ const Counter = ({ startValue, isEven, plus, minus, reset }) => {
           +
         </button>
       </div>
+      <Link to={ROUTE_NAMES.HOME}>HOME</Link>
     </div>
   );
 };
 
 Counter.propTypes = {
   startValue: PropTypes.number.isRequired,
-  isEven: PropTypes.string.isRequired,
   plus: PropTypes.func.isRequired,
   minus: PropTypes.func.isRequired,
   reset: PropTypes.func.isRequired,
 };
-export default Counter;
+export default memo(Counter);

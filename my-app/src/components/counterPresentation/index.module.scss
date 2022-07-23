@@ -3,6 +3,8 @@
     padding: 25px;
 border: 3px solid black;
 border-radius: 20px;
+box-sizing: border-box;
+box-shadow: 0 0 10px rgba(0,0,0,0.5);
 }
 
 .screen{
@@ -25,6 +27,7 @@ border-radius: 20px;
     background-color: blue;
     transition: 0.3s;
 }
+
 .evenOrOddScreen{
     height: 33px;
     font-size: 18px;
@@ -37,13 +40,9 @@ border-radius: 20px;
     text-align: center;
 }
 
-.change {
-    transition: 1s;
-}
 .buttonsArea {
     display: flex;
     justify-content: space-between
-
 }
 
 .buttonStyles {
