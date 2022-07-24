@@ -18,7 +18,7 @@ const CounterOfCountersPresentation = ({
         Reset
       </button>
       <div>
-        <p>Number of counters: {stateOfCounters} </p>
+        <p>Numbers of counters: {stateOfCounters} </p>
         <p>Counters value:</p>
       </div>
       {vision.map((item, index) => {
