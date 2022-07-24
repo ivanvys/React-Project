@@ -6,11 +6,12 @@ import { memo } from "react";
 import { Link } from "react-router-dom";
 import ROUTE_NAMES from "../../router/routeNames";
 
-const Counter = ({ startValue, plus, minus, reset }) => {
-  console.log("Render");
+const Counter = ({ startValue, plus, minus, reset, remove, sayhello }) => {
   const isEven = startValue % 2 === 0;
   return (
     <div className={styles.wrapper}>
+      {/* <button onClick={() => sayhello(startValue)}>g</button> */}
+      <button onClick={remove}>Remove </button>
       <div
         className={styles.screen}
         style={{ background: isEven ? "red" : "yellow" }}
