@@ -1,5 +1,5 @@
 import PropTypes from "prop-types";
-import User from "../../../../USEFUL_REACT/User";
+import User from "./User";
 import styles from "../ListsLayouts";
 
 const ListsLayout = ({
