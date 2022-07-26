@@ -6,12 +6,11 @@ import { memo } from "react";
 import { Link } from "react-router-dom";
 import ROUTE_NAMES from "../../router/routeNames";
 
-const Counter = ({ startValue, plus, minus, reset, remove, sayhello }) => {
+const Counter = ({ id, startValue, plus, minus, reset, remove }) => {
   const isEven = startValue % 2 === 0;
   return (
     <div className={styles.wrapper}>
-      {/* <button onClick={() => sayhello(startValue)}>g</button> */}
-      <button onClick={remove}>Remove </button>
+      <button onClick={() => remove(id)}>Remove </button>
       <div
         className={styles.screen}
         style={{ background: isEven ? "red" : "yellow" }}
@@ -22,13 +21,13 @@ const Counter = ({ startValue, plus, minus, reset, remove, sayhello }) => {
         {isEven ? "Чётное" : "Нечетное"}
       </div>
       <div className={styles.buttonsArea}>
-        <button onClick={minus} className={styles.buttonStyles}>
+        <button onClick={() => minus(id)} className={styles.buttonStyles}>
           -
         </button>
-        <button onClick={reset} className={styles.buttonStyles}>
+        <button onClick={() => reset(id)} className={styles.buttonStyles}>
           Reset
         </button>
-        <button onClick={plus} className={styles.buttonStyles}>
+        <button onClick={() => plus(id)} className={styles.buttonStyles}>
           +
         </button>
       </div>

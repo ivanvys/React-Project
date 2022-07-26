@@ -1,50 +1,95 @@
 import CounterOfCountersPresentation from "../CounterOfCountersComponents/CounterOfCountersPresentation";
-import FunctionalCounterContainer from "../../FunctionalCounter/FunctionalContainer";
-
 import { useCallback, useState } from "react";
+import { v4 as uuid } from "uuid";
 
 const CounterOfCounters = () => {
   const [startCounter, setCounter] = useState([]);
-  const [numberOfCount, setnumberOfCount] = useState(0);
-  const [count, setCount] = useState(0);
-  const handleCounterAdd = useCallback(() => {
-    setnumberOfCount((state) => state + 1);
+  const handleCounterAdd = () => {
+    const newCounter = {
+      id: uuid(),
+      countValue: 0,
+    };
     setCounter((state) => {
-      const functionalCounterContainerCopy = [...state];
-      const newContainer = <FunctionalCounterContainer />;
-      functionalCounterContainerCopy.push(newContainer);
-      return functionalCounterContainerCopy;
+      const updatedCounter = state.map((item) => {
+        return {
+          ...item,
+          countValue:
+            item.countValue % 2 === 0 ? item.countValue + 1 : item.countValue,
+        };
+      });
+      return [...updatedCounter, newCounter];
+    });
+  };
+
+  const handleCounterPlus = useCallback((id) => {
+    setCounter((state) => {
+      const startCounterCopy = [...state];
+      const targetStartCounterCopy = startCounterCopy.find((item) => {
+        return item.id === id;
+      });
+      targetStartCounterCopy.countValue += 1;
+
+      return startCounterCopy;
     });
   }, []);
 
-  const handleCounterDelete = useCallback((index) => {
-    setnumberOfCount((state) => state - 1);
+  const handleCounterMinus = useCallback((id) => {
     setCounter((state) => {
-      const functionalCounterContainerCopy = [...state];
-      functionalCounterContainerCopy.splice(index, 1);
-      return functionalCounterContainerCopy;
+      const startCounterCopy = [...state];
+      const targetStartCounterCopy = startCounterCopy.find((item) => {
+        return item.id === id;
+      });
+
+      if (targetStartCounterCopy.countValue > 0) {
+        targetStartCounterCopy.countValue -= 1;
+      }
+
+      return startCounterCopy;
+    });
+  }, []);
+
+  const handleCounterResetCounter = useCallback((id) => {
+    setCounter((state) => {
+      const startCounterCopy = [...state];
+      const targetStartCounterCopy = startCounterCopy.find((item) => {
+        return item.id === id;
+      });
+      targetStartCounterCopy.countValue = 0;
+      return startCounterCopy;
+    });
+  }, []);
+
+  const handleCounterRemove = useCallback((id) => {
+    setCounter((state) => {
+      const startCounterCopy = [...state];
+      const counterIndex = startCounterCopy.findIndex((item) => {
+        return item.id === id;
+      });
+      startCounterCopy.splice(counterIndex, 1);
+
+      return startCounterCopy.map((item) => {
+        return {
+          ...item,
+          countValue:
+            item.countValue % 2 !== 0 ? item.countValue - 1 : item.countValue,
+        };
+      });
     });
   }, []);
 
   const handleCounterReset = useCallback(() => {
-    setnumberOfCount((state) => (state = 0));
-    setCounter(() => {
-      return startCounter;
-    });
+    setCounter((state) => (state = startCounter));
   }, []);
-
-  // const sayhello = (value) => {
-  //   console.log(value);
-  // };
 
   return (
     <CounterOfCountersPresentation
-      vision={startCounter}
+      startCounter={startCounter}
       handleCounterAdd={handleCounterAdd}
+      handleCounterPlus={handleCounterPlus}
+      handleCounterMinus={handleCounterMinus}
       handleCounterReset={handleCounterReset}
-      handleCounterDelete={handleCounterDelete}
-      stateOfCounters={numberOfCount}
-      // sayhello={sayhello}
+      handleCounterRemove={handleCounterRemove}
+      handleCounterResetCounter={handleCounterResetCounter}
     />
   );
 };

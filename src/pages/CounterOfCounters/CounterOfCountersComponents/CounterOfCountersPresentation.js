@@ -1,13 +1,15 @@
 import styles from "../CounterOfCountersComponents/StylesCounterOfCountersPresentation.module.scss";
-import FunctionalCounterContainer from "../../FunctionalCounter/FunctionalContainer";
+import PropTypes from "prop-types";
+import Counter from "../../../components/counterPresentation";
 
 const CounterOfCountersPresentation = ({
-  vision,
+  startCounter,
   handleCounterAdd,
+  handleCounterPlus,
+  handleCounterMinus,
   handleCounterReset,
-  handleCounterDelete,
-  stateOfCounters,
-  sayhello,
+  handleCounterRemove,
+  handleCounterResetCounter,
 }) => {
   return (
     <div className={styles.wrapper}>
@@ -18,15 +20,25 @@ const CounterOfCountersPresentation = ({
         Reset
       </button>
       <div>
-        <p>Numbers of counters: {stateOfCounters} </p>
-        <p>Counters value:</p>
+        <h1>Numbers of counters: {startCounter.length} </h1>
+        <h1>
+          Counters value:
+          {startCounter.reduce((acc, item) => {
+            acc += item.countValue;
+            return acc;
+          }, 0)}
+        </h1>
       </div>
-      {vision.map((item, index) => {
+      {startCounter.map(({ id, countValue }) => {
         return (
-          <FunctionalCounterContainer
-            onDelete={() => handleCounterDelete(index)}
-            key={index}
-            sayhello={sayhello}
+          <Counter
+            id={id}
+            startValue={countValue}
+            key={id}
+            plus={handleCounterPlus}
+            minus={handleCounterMinus}
+            remove={handleCounterRemove}
+            reset={handleCounterResetCounter}
           />
         );
       })}
@@ -34,4 +46,9 @@ const CounterOfCountersPresentation = ({
   );
 };
 
+CounterOfCountersPresentation.propTypes = {
+  startCounter: PropTypes.arrayOf(
+    PropTypes.shape({ id: PropTypes.string, countValue: PropTypes.number })
+  ).isRequired,
+};
 export default CounterOfCountersPresentation;
