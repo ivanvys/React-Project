@@ -1,4 +1,5 @@
 import useCounter from "./useCounter";
+export { useForm } from "./useForm";
 
 export { useCounter }; //АЛЕАСО
 

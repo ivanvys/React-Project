@@ -1,5 +1,5 @@
 {
-  "homepage":"http://ivanvys.github.io/React-Project",
+  "homepage": "http://ivanvys.github.io/React-Project",
   "name": "my-app",
   "version": "0.1.0",
   "private": true,
@@ -11,8 +11,12 @@
     "node-sass": "^7.0.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-redux": "^8.0.2",
     "react-router-dom": "^6.3.0",
     "react-scripts": "5.0.1",
+    "redux": "^4.2.0",
+    "redux-actions": "^2.6.5",
+    "reselect": "^4.1.6",
     "uuid": "^8.3.2",
     "web-vitals": "^2.1.4"
   },
@@ -43,8 +47,10 @@
     ]
   },
   "devDependencies": {
+    "@redux-devtools/extension": "^3.2.2",
     "gh-pages": "^4.0.0",
     "prettier": "^2.7.1",
-    "prop-types": "^15.8.1"
+    "prop-types": "^15.8.1",
+    "redux-devtools-extension": "^2.13.9"
   }
 }

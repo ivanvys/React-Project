@@ -5,6 +5,8 @@ import FunctionalCounterContainer from "../pages/FunctionalCounter/FunctionalCon
 import Home from "../pages/Home";
 import ListsContainer from "../pages/Lists/container/ListsContainer";
 import CounterOfCounters from "../pages/CounterOfCounters/CounterOfCountersContainer/CounterOfCounters";
+import FormContainer from "../pages/Forms/FormContainer/FormContainer";
+import ReduxCountersContainer from "../pages/ReduxCounters/ReduxCountersContainer/ReduxCountersContainer";
 
 const Router = () => {
   return (
@@ -19,6 +21,11 @@ const Router = () => {
       <Route
         path={ROUTE_NAMES.CounterOfCounters_HW2}
         element={<CounterOfCounters />}
+      />
+      <Route path={ROUTE_NAMES.Forms} element={<FormContainer />} />
+      <Route
+        path={ROUTE_NAMES.ReduxCounters}
+        element={<ReduxCountersContainer />}
       />
     </Routes>
   );
