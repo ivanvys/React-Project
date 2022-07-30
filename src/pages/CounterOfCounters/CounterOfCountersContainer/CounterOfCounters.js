@@ -4,12 +4,13 @@ import { v4 as uuid } from "uuid";
 
 const CounterOfCounters = () => {
   const [startCounter, setCounter] = useState([]);
+
   const handleCounterAdd = () => {
-    const newCounter = {
-      id: uuid(),
-      countValue: 0,
-    };
     setCounter((state) => {
+      const newCounter = {
+        id: uuid(),
+        countValue: 0,
+      };
       const updatedCounter = state.map((item) => {
         return {
           ...item,
@@ -20,6 +21,30 @@ const CounterOfCounters = () => {
       return [...updatedCounter, newCounter];
     });
   };
+
+  const handleCounterReset = () => {
+    if (startCounter.length > 0) {
+      setCounter([]);
+    }
+  };
+
+  const handleCounterRemove = useCallback((id) => {
+    setCounter((state) => {
+      const startCounterCopy = [...state];
+      const counterIndex = startCounterCopy.findIndex((item) => {
+        return item.id === id;
+      });
+      startCounterCopy.splice(counterIndex, 1);
+
+      return startCounterCopy.map((item) => {
+        return {
+          ...item,
+          countValue:
+            item.countValue % 2 !== 0 ? item.countValue - 1 : item.countValue,
+        };
+      });
+    });
+  }, []);
 
   const handleCounterPlus = useCallback((id) => {
     setCounter((state) => {
@@ -57,28 +82,6 @@ const CounterOfCounters = () => {
       targetStartCounterCopy.countValue = 0;
       return startCounterCopy;
     });
-  }, []);
-
-  const handleCounterRemove = useCallback((id) => {
-    setCounter((state) => {
-      const startCounterCopy = [...state];
-      const counterIndex = startCounterCopy.findIndex((item) => {
-        return item.id === id;
-      });
-      startCounterCopy.splice(counterIndex, 1);
-
-      return startCounterCopy.map((item) => {
-        return {
-          ...item,
-          countValue:
-            item.countValue % 2 !== 0 ? item.countValue - 1 : item.countValue,
-        };
-      });
-    });
-  }, []);
-
-  const handleCounterReset = useCallback(() => {
-    setCounter((state) => (state = startCounter));
   }, []);
 
   return (
