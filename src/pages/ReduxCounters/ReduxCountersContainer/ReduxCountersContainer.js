@@ -9,7 +9,6 @@ import {
 } from "../actions";
 import Counter from "../../../components/counterPresentation/index";
 import { countersSelectors } from "../Selectors/selectors";
-import { totalRevenue } from "../Selectors/selectors";
 
 const ReduxCountersContainer = () => {
   const dispatch = useDispatch();
@@ -34,13 +33,10 @@ const ReduxCountersContainer = () => {
     dispatch(REMOVE_COUNTER(id));
   };
 
-  const total = useSelector(totalRevenue);
-
   return (
     <div>
       <button onClick={handleCounterCreate}>Create</button>
       <button onClick={handleCountersReset}>Reset</button>
-      <h2>{total}</h2>
 
       <div>
         {counterOfCounters.map(({ id, countValue }) => {
