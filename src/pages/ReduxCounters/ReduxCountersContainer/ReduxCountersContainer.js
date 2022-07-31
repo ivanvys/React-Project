@@ -37,7 +37,6 @@ const ReduxCountersContainer = () => {
     <div>
       <button onClick={handleCounterCreate}>Create</button>
       <button onClick={handleCountersReset}>Reset</button>
-
       <div>
         {counterOfCounters.map(({ id, countValue }) => {
           return (

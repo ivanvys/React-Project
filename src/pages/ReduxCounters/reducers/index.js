@@ -25,11 +25,11 @@ export const counterOfCounter = handleActions(
 
       return {
         ...state,
-        counters: [...arrayCounters],
+        counters: arrayCounters,
       };
     },
 
-    [actions.RESET_COUNTERS]: (state) => {
+    [actions.RESET_COUNTERS]: () => {
       return defaultState;
     },
 
