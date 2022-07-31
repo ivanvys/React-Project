@@ -1,11 +1,12 @@
 const ROUTE_NAMES = {
   HOME: "/",
-  COUNTER: "/classescounter",
+  Classes_COUNTER: "/classescounter",
   FUNCTIONAL_COUNTER: "/functionalcounter",
   LISTS: "/lists",
-  CounterOfCounters_HW2: "/dz2",
+  Counter_Manager_HW2: "/dz2",
   Forms: "/forms",
   ReduxCounters: "/reduxCounters",
+  ToDoList_HW3: "/dz3",
 };
 
 export default ROUTE_NAMES;
