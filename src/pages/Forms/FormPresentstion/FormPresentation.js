@@ -1,7 +1,7 @@
 import { useForm } from "../../../customHooks";
 
 const FormPresentation = () => {
-  const { state, hundleImput } = useForm({
+  const { state, hundleFromChange } = useForm({
     email: "",
     password: "",
   });
@@ -19,7 +19,7 @@ const FormPresentation = () => {
         <p>
           Email:
           <input
-            onChange={hundleImput}
+            onChange={hundleFromChange}
             value={state.email}
             type="email"
             name="email"
@@ -28,7 +28,7 @@ const FormPresentation = () => {
         <p>
           Password:
           <input
-            onChange={hundleImput}
+            onChange={hundleFromChange}
             value={state.password}
             type="password"
             name="password"

@@ -3,7 +3,7 @@ import { useCallback, useState } from "react";
 export const useForm = (form) => {
   const [state, setState] = useState(form);
 
-  const hundleImput = useCallback((event) => {
+  const hundleFromChange = useCallback((event) => {
     const { value, name } = event.target;
     setState((state) => {
       return { ...state, [name]: value };
@@ -11,12 +11,12 @@ export const useForm = (form) => {
   }, []);
 
   const hundleReset = useCallback(() => {
-    console.log(form);
+    setState(form);
   }, []);
 
   return {
     state,
-    hundleImput,
+    hundleFromChange,
     hundleReset,
   };
 };

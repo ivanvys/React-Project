@@ -4,5 +4,5 @@ import { CreateToDoList } from "../pages/ReduxToDoList/reducers";
 
 export const rootReducer = combineReducers({
   counterManager: counterOfCounter,
-  toDolist: CreateToDoList,
+  toDoList: CreateToDoList,
 });

@@ -3,59 +3,76 @@ import * as actions from "../actions";
 import { v4 as uuid } from "uuid";
 
 const defaultState = {
-  toDoList: [],
+  todos: [],
 };
 
 export const CreateToDoList = handleActions(
   {
-    [actions.CREATE_TASK]: (state) => {
-      const copyToDoList = [...state.toDoList];
+    [actions.CREATE_TASK]: (state, { payload }) => {
+      const copyToDoList = [...state.todos];
       const newTask = {
         id: uuid(),
-        text: "",
+        text: payload,
+        isComplete: false,
+        isEditMode: false,
       };
-      copyToDoList.push(newTask);
+      copyToDoList.unshift(newTask);
       return {
         ...state,
-        toDoList: copyToDoList,
+        todos: copyToDoList,
       };
     },
-    [actions.RESET_ALL_TASKS]: () => {
+
+    [actions.RESET_ALL_TASKS]: (state) => {
       return defaultState;
     },
+
+    [actions.ISCOMPLETE_TASK]: (state, action) => {
+      const copyToDoList = [...state.todos];
+      const foundToDoList = copyToDoList.find(
+        (item) => item.id === action.payload
+      );
+      foundToDoList.isComplete = true;
+
+      return {
+        ...state,
+        todos: copyToDoList,
+      };
+    },
+
     [actions.DELETE_TASK]: (state, action) => {
-      const copyToDoList = [...state.toDoList];
+      const copyToDoList = [...state.todos];
       const foundToDoList = copyToDoList.findIndex(
         (item) => item.id === action.payload
       );
       copyToDoList.splice(foundToDoList, 1);
       return {
         ...state,
-        toDoList: copyToDoList,
+        todos: copyToDoList,
       };
     },
 
-    [actions.ISCOMPLETE_TASK]: (state, action) => {
-      const copyToDoList = [...state.toDoList];
+    [actions.TOGGLE_TASK]: (state, action) => {
+      const copyToDoList = [...state.todos];
       const foundToDoList = copyToDoList.find(
         (item) => item.id === action.payload
       );
-      foundToDoList.text = "111";
+      foundToDoList.isEditMode = !foundToDoList.isEditMode;
       return {
         ...state,
-        toDoList: copyToDoList,
+        todos: copyToDoList,
       };
     },
 
     [actions.EDIT_TASK]: (state, action) => {
-      const copyToDoList = [...state.toDoList];
-      const foundToDoList = copyToDoList.find(
-        (item) => item.id === action.payload
-      );
-      foundToDoList.text = <input></input>;
+      const { id, updatedText } = action.payload;
+      const copyToDoList = [...state.todos];
+      const foundToDoList = copyToDoList.find((item) => item.id === id);
+      foundToDoList.text = updatedText;
+      foundToDoList.isEditMode = false;
       return {
         ...state,
-        toDoList: copyToDoList,
+        todos: copyToDoList,
       };
     },
   },

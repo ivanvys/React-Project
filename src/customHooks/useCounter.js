@@ -18,7 +18,7 @@ const useCounter = (defaultValue, allowNegative) => {
 
   const hundleReset = useCallback(() => {
     setCount(defaultValue);
-  });
+  }, []);
 
   return {
     count,

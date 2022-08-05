@@ -2,77 +2,141 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   CREATE_TASK,
   DELETE_TASK,
-  EDIT_TASK,
   ISCOMPLETE_TASK,
   RESET_ALL_TASKS,
+  TOGGLE_TASK,
+  EDIT_TASK,
 } from "../actions";
-import ReduxToDoListLayout from "../ReduxToDoListLayout/ReduxToDoListLayout";
 import { useForm } from "../../../customHooks";
-import { toDoSelectors } from "../../ReduxCounters/Selectors/selectors";
+import { toDoSelectors } from "../Selectors/selectors";
+import ToDoReadMode from "../components/toDoReadMode";
+import ToDoEditMode from "../components/toDoEditMode";
+import { useCallback, useState, useMemo } from "react";
 
 const ReduxToDoListContainer = () => {
-  const mainToDoList = useSelector(toDoSelectors);
+  const todoshki = useSelector(toDoSelectors);
   const dispatch = useDispatch();
-  const { state, hundleImput } = useForm({
-    text: "",
+  const { state, hundleFromChange, hundleReset } = useForm({
+    todoText: "",
   });
+  const [formState, setFormState] = useState("");
 
-  const hundleSubmit = (event) => {
-    event.preventDefault();
-    console.log(state.text);
+  const handleInputChange = (event) => {
+    setFormState(event.target.value);
   };
 
-  const handleCreateTask = () => {
-    dispatch(CREATE_TASK());
-  };
+  const handleToDoCreate = useCallback(
+    (event) => {
+      event.preventDefault();
+      hundleReset();
+      if (
+        state.todoText.length >= 3 &&
+        state.todoText === state.todoText.trim()
+      ) {
+        dispatch(CREATE_TASK(state.todoText)); //<-- это будет payload
+        hundleReset();
+      }
+    },
+    [state.todoText]
+  );
 
-  const handleResetAllTasks = () => {
+  const handleToDoReset = useCallback(() => {
     dispatch(RESET_ALL_TASKS());
-  };
+  }, [dispatch]);
 
-  const handleDeleteTask = (id) => {
-    dispatch(DELETE_TASK(id));
-  };
+  const handleToDoComplete = useCallback(
+    (id) => {
+      dispatch(ISCOMPLETE_TASK(id));
+    },
+    [dispatch]
+  );
 
-  const handleIsComplete = (id) => {
-    dispatch(ISCOMPLETE_TASK(id));
-  };
+  const handleToDoDelete = useCallback(
+    (id) => {
+      dispatch(DELETE_TASK(id));
+    },
+    [dispatch]
+  );
 
-  const handleEditeTask = (id) => {
-    dispatch(EDIT_TASK(id));
-  };
+  const handleToDoToggle = useCallback(
+    (id) => {
+      dispatch(TOGGLE_TASK(id));
+    },
+    [dispatch]
+  );
+
+  const handleToDoSave = useCallback(
+    ({ id, updatedText }) => {
+      if (updatedText.length >= 3 && updatedText === updatedText.trim()) {
+        dispatch(EDIT_TASK({ id, updatedText }));
+      }
+    },
+    [dispatch]
+  );
+
+  const handleToDoDecline = useCallback(
+    (id) => {
+      dispatch(TOGGLE_TASK(id));
+    },
+    [dispatch]
+  );
+
+  const filterTodo = useMemo(() => {
+    return todoshki.filter((element) => {
+      if (
+        element.text.toLowerCase().slice(0, formState.length) ===
+        formState.toLowerCase()
+      ) {
+        return element;
+      }
+    });
+  }, [formState, todoshki]);
 
   return (
     <div>
+      <div>
+        <h2>Search field:</h2>
+        <input
+          value={formState}
+          onChange={handleInputChange}
+          type="text"
+        ></input>
+      </div>
       <h2>To do list:</h2>
-      <form onSubmit={hundleSubmit}>
-        <p>
-          <input
-            onChange={hundleImput}
-            value={state.text}
-            type="text"
-            name="text"
-          />
-        </p>
-        <button onClick={handleCreateTask} type="submit">
-          Create a task
-        </button>
-        <button onClick={handleResetAllTasks}>Reset all tasks</button>
-        <div>
-          {mainToDoList.map(({ id, text }) => {
-            return (
-              <ReduxToDoListLayout
-                id={id}
-                text={text}
-                key={id}
-                handleDeleteTask={handleDeleteTask}
-                handleIsComplete={handleIsComplete}
-                handleEditeTask={handleEditeTask}
-              />
-            );
-          })}
-        </div>
+      <form onSubmit={handleToDoCreate} style={{ display: "inline-block" }}>
+        <input
+          value={state.todoText}
+          onChange={hundleFromChange}
+          name="todoText"
+        ></input>
+        <button>Create Task</button>
       </form>
+      <button onClick={handleToDoReset}>Remove all tasks</button>
+      <ol>
+        {filterTodo.map((item) => {
+          return (
+            <li key={item.id}>
+              {item.isEditMode === false ? (
+                <ToDoReadMode
+                  text={item.text}
+                  id={item.id}
+                  handleToDoComplete={handleToDoComplete}
+                  handleToDoDelete={handleToDoDelete}
+                  handleToDoToggle={handleToDoToggle}
+                  isComplete={item.isComplete}
+                />
+              ) : (
+                <ToDoEditMode
+                  text={item.text}
+                  id={item.id}
+                  handleToDoSave={handleToDoSave}
+                  handleToDoDecline={handleToDoDecline}
+                />
+              )}
+            </li>
+          );
+        })}
+      </ol>
     </div>
   );
 };
