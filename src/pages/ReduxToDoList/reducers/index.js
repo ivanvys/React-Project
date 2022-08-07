@@ -8,11 +8,11 @@ const defaultState = {
 
 export const CreateToDoList = handleActions(
   {
-    [actions.CREATE_TASK]: (state, { payload }) => {
+    [actions.CREATE_TASK]: (state, action) => {
       const copyToDoList = [...state.todos];
       const newTask = {
         id: uuid(),
-        text: payload,
+        text: action.payload,
         isComplete: false,
         isEditMode: false,
       };
@@ -23,7 +23,7 @@ export const CreateToDoList = handleActions(
       };
     },
 
-    [actions.RESET_ALL_TASKS]: (state) => {
+    [actions.RESET_ALL_TASKS]: () => {
       return defaultState;
     },
 
@@ -73,6 +73,24 @@ export const CreateToDoList = handleActions(
       return {
         ...state,
         todos: copyToDoList,
+      };
+    },
+
+    [actions.SORT_TASKS]: (state) => {
+      const copyToDoList = [...state.todos];
+      const arrayNotComplete = [];
+      const arrayComplete = [];
+      copyToDoList.forEach((item) => {
+        if (item.isComplete === false) {
+          arrayNotComplete.push(item);
+        } else {
+          arrayComplete.push(item);
+        }
+      });
+      const arrayOfTodo = [...arrayNotComplete, ...arrayComplete];
+      return {
+        ...state,
+        todos: arrayOfTodo,
       };
     },
   },

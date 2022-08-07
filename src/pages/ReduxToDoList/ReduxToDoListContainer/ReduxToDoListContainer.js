@@ -6,6 +6,7 @@ import {
   RESET_ALL_TASKS,
   TOGGLE_TASK,
   EDIT_TASK,
+  SORT_TASKS,
 } from "../actions";
 import { useForm } from "../../../customHooks";
 import { toDoSelectors } from "../Selectors/selectors";
@@ -34,7 +35,6 @@ const ReduxToDoListContainer = () => {
         state.todoText === state.todoText.trim()
       ) {
         dispatch(CREATE_TASK(state.todoText)); //<-- это будет payload
-        hundleReset();
       }
     },
     [state.todoText]
@@ -92,6 +92,10 @@ const ReduxToDoListContainer = () => {
     });
   }, [formState, todoshki]);
 
+  const handleSortTodo = useCallback(() => {
+    dispatch(SORT_TASKS());
+  }, []);
+
   return (
     <div>
       <div>
@@ -101,6 +105,9 @@ const ReduxToDoListContainer = () => {
           onChange={handleInputChange}
           type="text"
         ></input>
+        <button onClick={handleSortTodo} style={{ marginLeft: "75px" }}>
+          Sort complete todo
+        </button>
       </div>
       <h2>To do list:</h2>
       <form onSubmit={handleToDoCreate} style={{ display: "inline-block" }}>
