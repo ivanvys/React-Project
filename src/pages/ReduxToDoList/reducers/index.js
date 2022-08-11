@@ -4,6 +4,7 @@ import { v4 as uuid } from "uuid";
 
 const defaultState = {
   todos: [],
+  prev: [],
 };
 
 export const CreateToDoList = handleActions(
@@ -33,9 +34,8 @@ export const CreateToDoList = handleActions(
         (item) => item.id === action.payload
       );
       foundToDoList.isComplete = true;
-
       return {
-        ...state,
+        prev: copyToDoList,
         todos: copyToDoList,
       };
     },
@@ -91,6 +91,14 @@ export const CreateToDoList = handleActions(
       return {
         ...state,
         todos: arrayOfTodo,
+      };
+    },
+
+    [actions.PREVIOUS_STATE]: (state) => {
+      const copyToDoList = [...state.prev];
+      return {
+        ...state,
+        todos: copyToDoList,
       };
     },
   },

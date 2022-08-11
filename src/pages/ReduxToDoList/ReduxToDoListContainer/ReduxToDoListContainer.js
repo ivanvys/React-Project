@@ -7,14 +7,16 @@ import {
   TOGGLE_TASK,
   EDIT_TASK,
   SORT_TASKS,
+  PREVIOUS_STATE,
 } from "../actions";
 import { useForm } from "../../../customHooks";
-import { toDoSelectors } from "../Selectors/selectors";
+import { toDoSelectors, toDoSelectorsPrev } from "../Selectors/selectors";
 import ToDoReadMode from "../components/toDoReadMode";
 import ToDoEditMode from "../components/toDoEditMode";
 import { useCallback, useState, useMemo } from "react";
 
 const ReduxToDoListContainer = () => {
+  const prev = useSelector(toDoSelectorsPrev);
   const todoshki = useSelector(toDoSelectors);
   const dispatch = useDispatch();
   const { state, hundleFromChange, hundleReset } = useForm({
@@ -96,6 +98,10 @@ const ReduxToDoListContainer = () => {
     dispatch(SORT_TASKS());
   }, []);
 
+  const handlePrevious = useCallback(() => {
+    dispatch(PREVIOUS_STATE());
+  }, []);
+
   return (
     <div>
       <div>
@@ -105,7 +111,16 @@ const ReduxToDoListContainer = () => {
           onChange={handleInputChange}
           type="text"
         ></input>
-        <button onClick={handleSortTodo} style={{ marginLeft: "75px" }}>
+        <button
+          onClick={
+            prev.length !== 0
+              ? JSON.stringify(todoshki) === JSON.stringify(prev)
+                ? handleSortTodo
+                : handlePrevious
+              : null
+          }
+          style={{ marginLeft: "75px" }}
+        >
           Sort complete todo
         </button>
       </div>

@@ -7,3 +7,4 @@ export const EDIT_TASK = createAction("EDIT_TASK");
 export const ISCOMPLETE_TASK = createAction("ISCOMPLETE_TASK");
 export const TOGGLE_TASK = createAction("TOGGLE_TASK");
 export const SORT_TASKS = createAction("SORT_TASKS");
+export const PREVIOUS_STATE = createAction("PREVIOUS_STATE");
