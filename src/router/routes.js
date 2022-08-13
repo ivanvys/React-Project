@@ -8,6 +8,8 @@ import CounterOfCounters from "../pages/CounterOfCounters/CounterOfCountersConta
 import FormContainer from "../pages/Forms/FormContainer/FormContainer";
 import ReduxCountersContainer from "../pages/ReduxCounters/ReduxCountersContainer/ReduxCountersContainer";
 import ReduxToDoListContainer from "../pages/ReduxToDoList/ReduxToDoListContainer/ReduxToDoListContainer";
+import DataFetching from "../pages/DataFetching/dataFetching";
+import RenderProps from "../pages/RenderProps/RenderProps";
 
 const Router = () => {
   return (
@@ -35,6 +37,8 @@ const Router = () => {
         path={ROUTE_NAMES.ToDoList_HW3}
         element={<ReduxToDoListContainer />}
       />
+      <Route path={ROUTE_NAMES.data_Fetching} element={<DataFetching />} />
+      <Route path={ROUTE_NAMES.render_props} element={<RenderProps />} />
     </Routes>
   );
 };

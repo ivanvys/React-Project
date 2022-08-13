@@ -112,6 +112,7 @@ const ReduxToDoListContainer = () => {
           type="text"
         ></input>
         <button
+          style={{ marginLeft: "75px" }}
           onClick={
             prev.length !== 0
               ? JSON.stringify(todoshki) === JSON.stringify(prev)
@@ -119,9 +120,10 @@ const ReduxToDoListContainer = () => {
                 : handlePrevious
               : null
           }
-          style={{ marginLeft: "75px" }}
         >
-          Sort complete todo
+          {JSON.stringify(todoshki) === JSON.stringify(prev)
+            ? "Sort to do"
+            : "Previous state"}
         </button>
       </div>
       <h2>To do list:</h2>

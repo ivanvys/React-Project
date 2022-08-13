@@ -7,6 +7,8 @@ const ROUTE_NAMES = {
   Forms: "/forms",
   ReduxCounters: "/reduxCounters",
   ToDoList_HW3: "/dz3",
+  data_Fetching: "/data-fetching",
+  render_props: "/render-props",
 };
 
 export default ROUTE_NAMES;
