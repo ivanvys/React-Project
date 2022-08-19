@@ -14,6 +14,10 @@ import { toDoSelectors, toDoSelectorsPrev } from "../Selectors/selectors";
 import ToDoReadMode from "../components/toDoReadMode";
 import ToDoEditMode from "../components/toDoEditMode";
 import { useCallback, useState, useMemo } from "react";
+import Select from "@mui/material/Select";
+import MenuItem from "@mui/material/MenuItem";
+import { SORT_OPTIONS } from "../config";
+import { SORT_SCENARIOS } from "../config";
 
 const ReduxToDoListContainer = () => {
   const prev = useSelector(toDoSelectorsPrev);
@@ -23,6 +27,7 @@ const ReduxToDoListContainer = () => {
     todoText: "",
   });
   const [formState, setFormState] = useState("");
+  const [sortOption, setSortOption] = useState(SORT_OPTIONS.DEFAULT);
 
   const handleInputChange = (event) => {
     setFormState(event.target.value);
@@ -102,6 +107,29 @@ const ReduxToDoListContainer = () => {
     dispatch(PREVIOUS_STATE());
   }, []);
 
+  const handleSort = useCallback((event) => {
+    setSortOption(event.target.value);
+  }, []);
+
+  const sortTodosToRender = useMemo(() => {
+    if (SORT_SCENARIOS[sortOption] === "NOT_COMPLETED") {
+      const copyTodo = [...filterTodo];
+      return copyTodo.filter((item) => item.isComplete === false);
+    }
+
+    if (SORT_SCENARIOS[sortOption] === "COMPLETED") {
+      const copyTodo = [...filterTodo];
+      return copyTodo.filter((item) => item.isComplete === true);
+    }
+
+    if (SORT_SCENARIOS[sortOption]) {
+      const copyTodo = [...filterTodo];
+      return copyTodo.sort(SORT_SCENARIOS[sortOption]);
+    }
+
+    return filterTodo;
+  }, [filterTodo, sortOption]);
+
   return (
     <div>
       <div>
@@ -125,6 +153,28 @@ const ReduxToDoListContainer = () => {
             ? "Sort to do"
             : "Previous state"}
         </button>
+        <div>
+          <h2>Sort by alphabet and complete/not complete</h2>
+          <Select
+            style={{ width: "300px" }}
+            labelId="demo-simple-select-label"
+            id="demo-simple-select"
+            value={sortOption}
+            defaultValue={SORT_OPTIONS.DEFAULT}
+            label="Age"
+            onChange={handleSort}
+          >
+            <MenuItem value={SORT_OPTIONS.DEFAULT}>Default value</MenuItem>
+            <MenuItem value={SORT_OPTIONS.ASC}>A-Z</MenuItem>
+            <MenuItem value={SORT_OPTIONS.DESC}>Z-A</MenuItem>
+            <MenuItem value={SORT_OPTIONS.NOT_COMPLETED}>
+              Show outstanding tasks
+            </MenuItem>
+            <MenuItem value={SORT_OPTIONS.COMPLETED}>
+              Show completed tasks
+            </MenuItem>
+          </Select>
+        </div>
       </div>
       <h2>To do list:</h2>
       <form onSubmit={handleToDoCreate} style={{ display: "inline-block" }}>
@@ -137,7 +187,7 @@ const ReduxToDoListContainer = () => {
       </form>
       <button onClick={handleToDoReset}>Remove all tasks</button>
       <ol>
-        {filterTodo.map((item) => {
+        {sortTodosToRender.map((item) => {
           return (
             <li key={item.id}>
               {item.isEditMode === false ? (

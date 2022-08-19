@@ -20,9 +20,9 @@ export const useFetching = (async, initialValue, isLoad = true) => {
     }
   }, []);
 
-  const handleReset = () => {
+  const handleReset = useCallback(() => {
     return setData([]);
-  };
+  }, []);
 
   useEffect(() => {
     isLoad && hundleDataLoad();
