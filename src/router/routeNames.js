@@ -5,9 +5,9 @@ const ROUTE_NAMES = {
   LISTS: "/lists",
   Counter_Manager_HW2: "/dz2",
   Forms: "/forms",
-  ReduxCounters: "/reduxCounters",
-  ToDoList_HW3: "/dz3",
-  data_Fetching: "/data-fetching",
+  COUNTER_MANAGER_REDUX_TOOLKIT: "/reduxCounters",
+  ToDoList_HW3_TOOLKIT: "/dz3",
+  data_Fetching_REDUX_THUNK: "/data-fetching",
   render_props: "/render-props",
 };
 

@@ -1,4 +1,5 @@
 import { handleActions } from "redux-actions";
+import { createSlice } from "@reduxjs/toolkit";
 import * as actions from "../actions";
 import { v4 as uuid } from "uuid";
 
@@ -7,6 +8,7 @@ const defaultState = {
   prev: [],
 };
 
+// ----------------------------------------------------------------------without TOOLKIT
 export const CreateToDoList = handleActions(
   {
     [actions.CREATE_TASK]: (state, action) => {
@@ -104,3 +106,76 @@ export const CreateToDoList = handleActions(
   },
   defaultState
 );
+
+// ----------------------------------------------------------------------with TOOLKIT
+
+export const toDolistSlice = createSlice({
+  name: "toDoList",
+  initialState: defaultState,
+  reducers: {
+    createTodo: (state, action) => {
+      const newTask = {
+        id: uuid(),
+        text: action.payload,
+        isComplete: false,
+        isEditMode: false,
+      };
+      state.todos.unshift(newTask);
+    },
+
+    resetTodo: () => defaultState,
+
+    deleteTodo: (state, action) => {
+      const foudedTodo = state.todos.findIndex(
+        (item) => item.id === action.payload
+      );
+      state.todos.splice(foudedTodo, 1);
+    },
+
+    isCompleteTodo: (state, action) => {
+      const foundToDoList = state.todos.find(
+        (item) => item.id === action.payload
+      );
+      foundToDoList.isComplete = true;
+    },
+
+    toggleTodo: (state, action) => {
+      const foundToDoList = state.todos.find(
+        (item) => item.id === action.payload
+      );
+      foundToDoList.isEditMode = !foundToDoList.isEditMode;
+    },
+
+    editTodo: (state, action) => {
+      const { id, updatedText } = action.payload;
+      const foundToDoList = state.todos.find((item) => item.id === id);
+      foundToDoList.text = updatedText;
+      foundToDoList.isEditMode = false;
+    },
+
+    sortTodo: (state) => {
+      const arrayNotComplete = [];
+      const arrayComplete = [];
+      state.todos.forEach((item) => {
+        if (item.isComplete === false) {
+          arrayNotComplete.push(item);
+        } else {
+          arrayComplete.push(item);
+        }
+      });
+      state.todos = [...arrayNotComplete, ...arrayComplete];
+    },
+  },
+});
+
+export const {
+  createTodo,
+  deleteTodo,
+  resetTodo,
+  isCompleteTodo,
+  toggleTodo,
+  editTodo,
+  sortTodo,
+} = toDolistSlice.actions;
+
+export default toDolistSlice.reducer;

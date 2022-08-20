@@ -2,12 +2,40 @@ import { useFetching } from "../../customHooks/useFetching";
 import Spinner from "../../components/Spinner";
 import { getPoke } from "./api/api";
 import PokemonCard from "../../components/PokemonCard/PokemonCard";
+import { useDispatch } from "react-redux";
+import { useEffect, useState, useCallback } from "react";
+import { loadPokemons } from "./reducers";
+
 const DataFetching = () => {
-  const { data, load, error, hundleDataLoad, handleReset } = useFetching(
-    getPoke,
-    [],
-    false
-  );
+  const dispatch = useDispatch();
+  // const { data, load, error, hundleDataLoad, handleReset } = useFetching(
+  //   getPoke,
+  //   [],
+  //   false
+  // );
+
+  const [data, setData] = useState([]);
+  const [load, setLoad] = useState(false);
+  const [error, setError] = useState(null);
+
+  const delay = (delay) => new Promise((resolve) => setTimeout(resolve, delay));
+
+  const hundleDataLoad = useCallback(async () => {
+    try {
+      setLoad(true);
+      await delay(2000);
+      const { payload } = await dispatch(loadPokemons());
+      setData(payload);
+    } catch (error) {
+      setError(error.message);
+    } finally {
+      setLoad(false);
+    }
+  }, []);
+
+  const handleReset = useCallback(() => {
+    return setData([]);
+  }, []);
 
   return (
     <div>

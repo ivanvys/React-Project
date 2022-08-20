@@ -1,36 +1,45 @@
 import { useDispatch, useSelector } from "react-redux";
-import {
-  CREATE_COUNTER,
-  PLUS_COUNTER,
-  RESET_COUNTERS,
-  MINUS_COUNTER,
-  RESET_COUNTER,
-  REMOVE_COUNTER,
-} from "../actions";
+// import {
+//   CREATE_COUNTER,
+//   PLUS_COUNTER,
+//   RESET_COUNTERS,
+//   MINUS_COUNTER,
+//   RESET_COUNTER,
+//   REMOVE_COUNTER,
+// } from "../actions";
 import Counter from "../../../components/counterPresentation/index";
 import { countersSelectors } from "../Selectors/selectors";
+import {
+  createCounter,
+  resetCounter,
+  counterPlus,
+  counterMinus,
+  counterReset,
+  removeCounter,
+} from "../reducers";
 
 const ReduxCountersContainer = () => {
   const dispatch = useDispatch();
+
   const counterOfCounters = useSelector(countersSelectors);
+
   const handleCounterCreate = () => {
-    dispatch(CREATE_COUNTER());
+    dispatch(createCounter());
   };
   const handleCounterPlus = (id) => {
-    dispatch(PLUS_COUNTER(id));
+    dispatch(counterPlus(id));
   };
   const handleCountersReset = () => {
-    dispatch(RESET_COUNTERS());
+    dispatch(resetCounter());
   };
   const handleCountersMinus = (id) => {
-    dispatch(MINUS_COUNTER(id));
+    dispatch(counterMinus(id));
   };
-
   const handleResetCounter = (id) => {
-    dispatch(RESET_COUNTER(id));
+    dispatch(counterReset(id));
   };
   const handleCounterRemove = (id) => {
-    dispatch(REMOVE_COUNTER(id));
+    dispatch(removeCounter(id));
   };
 
   return (
