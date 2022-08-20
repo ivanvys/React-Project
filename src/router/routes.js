@@ -30,14 +30,17 @@ const Router = () => {
       />
       <Route path={ROUTE_NAMES.Forms} element={<FormContainer />} />
       <Route
-        path={ROUTE_NAMES.ReduxCounters}
+        path={ROUTE_NAMES.COUNTER_MANAGER_REDUX_TOOLKIT}
         element={<ReduxCountersContainer />}
       />
       <Route
-        path={ROUTE_NAMES.ToDoList_HW3}
+        path={ROUTE_NAMES.ToDoList_HW3_TOOLKIT}
         element={<ReduxToDoListContainer />}
       />
-      <Route path={ROUTE_NAMES.data_Fetching} element={<DataFetching />} />
+      <Route
+        path={ROUTE_NAMES.data_Fetching_REDUX_THUNK}
+        element={<DataFetching />}
+      />
       <Route path={ROUTE_NAMES.render_props} element={<RenderProps />} />
     </Routes>
   );

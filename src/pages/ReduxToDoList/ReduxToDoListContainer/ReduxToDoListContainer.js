@@ -1,14 +1,13 @@
 import { useDispatch, useSelector } from "react-redux";
 import {
-  CREATE_TASK,
-  DELETE_TASK,
-  ISCOMPLETE_TASK,
-  RESET_ALL_TASKS,
-  TOGGLE_TASK,
-  EDIT_TASK,
-  SORT_TASKS,
-  PREVIOUS_STATE,
-} from "../actions";
+  createTodo,
+  deleteTodo,
+  resetTodo,
+  isCompleteTodo,
+  toggleTodo,
+  editTodo,
+  sortTodo,
+} from "../reducers";
 import { useForm } from "../../../customHooks";
 import { toDoSelectors, toDoSelectorsPrev } from "../Selectors/selectors";
 import ToDoReadMode from "../components/toDoReadMode";
@@ -41,33 +40,33 @@ const ReduxToDoListContainer = () => {
         state.todoText.length >= 3 &&
         state.todoText === state.todoText.trim()
       ) {
-        dispatch(CREATE_TASK(state.todoText)); //<-- это будет payload
+        dispatch(createTodo(state.todoText)); //<-- это будет payload
       }
     },
     [state.todoText]
   );
 
   const handleToDoReset = useCallback(() => {
-    dispatch(RESET_ALL_TASKS());
+    dispatch(resetTodo());
   }, [dispatch]);
 
   const handleToDoComplete = useCallback(
     (id) => {
-      dispatch(ISCOMPLETE_TASK(id));
+      dispatch(isCompleteTodo(id));
     },
     [dispatch]
   );
 
   const handleToDoDelete = useCallback(
     (id) => {
-      dispatch(DELETE_TASK(id));
+      dispatch(deleteTodo(id));
     },
     [dispatch]
   );
 
   const handleToDoToggle = useCallback(
     (id) => {
-      dispatch(TOGGLE_TASK(id));
+      dispatch(toggleTodo(id));
     },
     [dispatch]
   );
@@ -75,7 +74,7 @@ const ReduxToDoListContainer = () => {
   const handleToDoSave = useCallback(
     ({ id, updatedText }) => {
       if (updatedText.length >= 3 && updatedText === updatedText.trim()) {
-        dispatch(EDIT_TASK({ id, updatedText }));
+        dispatch(editTodo({ id, updatedText }));
       }
     },
     [dispatch]
@@ -83,10 +82,18 @@ const ReduxToDoListContainer = () => {
 
   const handleToDoDecline = useCallback(
     (id) => {
-      dispatch(TOGGLE_TASK(id));
+      dispatch(toggleTodo(id));
     },
     [dispatch]
   );
+
+  const handleSortTodo = useCallback(() => {
+    dispatch(sortTodo());
+  }, []);
+
+  const handleSort = useCallback((event) => {
+    setSortOption(event.target.value);
+  }, []);
 
   const filterTodo = useMemo(() => {
     return todoshki.filter((element) => {
@@ -98,18 +105,6 @@ const ReduxToDoListContainer = () => {
       }
     });
   }, [formState, todoshki]);
-
-  const handleSortTodo = useCallback(() => {
-    dispatch(SORT_TASKS());
-  }, []);
-
-  const handlePrevious = useCallback(() => {
-    dispatch(PREVIOUS_STATE());
-  }, []);
-
-  const handleSort = useCallback((event) => {
-    setSortOption(event.target.value);
-  }, []);
 
   const sortTodosToRender = useMemo(() => {
     if (SORT_SCENARIOS[sortOption] === "NOT_COMPLETED") {
@@ -139,19 +134,8 @@ const ReduxToDoListContainer = () => {
           onChange={handleInputChange}
           type="text"
         ></input>
-        <button
-          style={{ marginLeft: "75px" }}
-          onClick={
-            prev.length !== 0
-              ? JSON.stringify(todoshki) === JSON.stringify(prev)
-                ? handleSortTodo
-                : handlePrevious
-              : null
-          }
-        >
-          {JSON.stringify(todoshki) === JSON.stringify(prev)
-            ? "Sort to do"
-            : "Previous state"}
+        <button style={{ marginLeft: "75px" }} onClick={handleSortTodo}>
+          Sort to do
         </button>
         <div>
           <h2>Sort by alphabet and complete/not complete</h2>

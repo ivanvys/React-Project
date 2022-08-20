@@ -3,12 +3,10 @@ import { BrowserRouter } from "react-router-dom";
 import MainLayout from "./components/Layouts";
 import "./index.css";
 import { Provider } from "react-redux";
-
 import Router from "./router/routes";
-import { configureStore } from "./store/configureStore";
+import { store } from "./store/configureStore";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
-const store = configureStore();
 root.render(
   <BrowserRouter>
     <Provider store={store}>
