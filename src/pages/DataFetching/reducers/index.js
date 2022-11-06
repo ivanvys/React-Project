@@ -1,49 +1,47 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { api } from "../../../api/config";
+import { getPoke } from "../api/api";
+
 const initialState = {
   isLoading: false,
-  pokemons: [],
   error: null,
+  pokemonsы: [],
 };
-
-export const loadPokemons = createAsyncThunk(
-  "pokemons/fetchAll",
-  async (name, { rejectWithValue }) => {
-    const pokemons = await api.get("/pokemon");
-    const poke = pokemons.data.results.map((item) => {
-      return api.get(item.url).then(({ data }) => data);
-    });
-    const detailPoke = await Promise.all(poke);
-    const newPoke = detailPoke.map((item) => {
-      return {
-        name: item.name,
-        image: item.sprites.front_shiny,
-        experience: item.base_experience,
-        id: item.id,
-      };
-    });
-    console.log(newPoke);
-    return newPoke;
-  }
-);
+// const delay = (delay) => new Promise((resolve) => setTimeout(resolve, delay));
+export const loadPokemons = createAsyncThunk("pokemons/fetchAll", async () => {
+  const response = await getPoke();
+  return response.data;
+});
 
 const pokemonsSlice = createSlice({
-  name: "pokeActions",
+  name: "poke",
   initialState,
-  extraReducers: (builder) => {
-    builder.addCase(loadPokemons.pending, (state) => {
+  extraReducers: {
+    [loadPokemons.pending]: (state) => {
       state.isLoading = true;
-    });
-    builder.addCase(loadPokemons.fulfilled, (state, { payload }) => {
+    },
+    [loadPokemons.fulfilled]: (state, { payload }) => {
       state.isLoading = false;
-      state.data = payload;
-    });
-    builder.addCase(loadPokemons.rejected, (state, { payload }) => {
+      state.pokemonsы = payload;
+    },
+    [loadPokemons.rejected]: (state, { error }) => {
       state.isLoading = false;
-      state.error = payload;
-    });
+      state.error = error.message;
+    },
   },
-  reducers: {},
+  reducers: {
+    deletePokemon: (state, action) => {
+      const foundPokemonIndex = state.pokemonsы.findIndex((item) => {
+        return item.id === action.payload;
+      });
+      state.pokemonsы.splice(foundPokemonIndex, 1);
+    },
+    resetPokemons: (state) => {
+      state.pokemonsы = [];
+    },
+  },
 });
+
+export const { deletePokemon, resetPokemons } = pokemonsSlice.actions;
 
 export default pokemonsSlice.reducer;

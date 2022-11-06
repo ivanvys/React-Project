@@ -80,13 +80,6 @@ const ReduxToDoListContainer = () => {
     [dispatch]
   );
 
-  const handleToDoDecline = useCallback(
-    (id) => {
-      dispatch(toggleTodo(id));
-    },
-    [dispatch]
-  );
-
   const handleSortTodo = useCallback(() => {
     dispatch(sortTodo());
   }, []);
@@ -188,7 +181,7 @@ const ReduxToDoListContainer = () => {
                   text={item.text}
                   id={item.id}
                   handleToDoSave={handleToDoSave}
-                  handleToDoDecline={handleToDoDecline}
+                  handleToDoDecline={handleToDoToggle}
                 />
               )}
             </li>

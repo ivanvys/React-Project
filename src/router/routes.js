@@ -10,6 +10,17 @@ import ReduxCountersContainer from "../pages/ReduxCounters/ReduxCountersContaine
 import ReduxToDoListContainer from "../pages/ReduxToDoList/ReduxToDoListContainer/ReduxToDoListContainer";
 import DataFetching from "../pages/DataFetching/dataFetching";
 import RenderProps from "../pages/RenderProps/RenderProps";
+import PokemonDetailContainer from "../pages/PokemonDetails/container/PokemonDetailContainer";
+// import ContainerToDo from "../pages/MyOwnToDoListOnReduxToolKit/Container";
+// import MyFetching from "../pages/MyPokeFetching/container";
+// import MyRenderProp from "../pages/myRenderProp/RenderProp";
+import SignUpContainer from "../pages/SignUp/Container/SignUpContainer";
+import SignInContainer from "../pages/SignIn/SignInContainer/SignInContainer";
+import PrivateRoute from "./PrivateRoute";
+import Saga from "../pages/ExampleSaga/Saga";
+import MyTimerContainer from "../pages/MyTimer/MyTimerContainer";
+import TelephoneListContainer from "../pages/TelephoneList/TelephoneListContainers";
+import CalculatorContainer from "../pages/Сalculator/CalculatorContainer";
 
 const Router = () => {
   return (
@@ -38,10 +49,28 @@ const Router = () => {
         element={<ReduxToDoListContainer />}
       />
       <Route
-        path={ROUTE_NAMES.data_Fetching_REDUX_THUNK}
-        element={<DataFetching />}
+        path={ROUTE_NAMES.pokemons_REDUX_THUNK_details}
+        element={<PokemonDetailContainer />}
       />
-      <Route path={ROUTE_NAMES.render_props} element={<RenderProps />} />
+      <Route element={<PrivateRoute />}>
+        <Route path={ROUTE_NAMES.render_props} element={<RenderProps />} />
+        <Route
+          path={ROUTE_NAMES.pokemons_REDUX_THUNK}
+          element={<DataFetching />}
+        />
+      </Route>
+      {/* <Route path={ROUTE_NAMES.my_todo} element={<ContainerToDo />} />
+      <Route path={ROUTE_NAMES.my_fetching} element={<MyFetching />} />
+      <Route path={ROUTE_NAMES.my_render_prop} element={<MyRenderProp />} /> */}
+      <Route path={ROUTE_NAMES.sign_up} element={<SignUpContainer />} />
+      <Route path={ROUTE_NAMES.sign_in} element={<SignInContainer />} />
+      <Route path={ROUTE_NAMES.saga} element={<Saga />} />
+      <Route path={ROUTE_NAMES.timer} element={<MyTimerContainer />} />
+      <Route
+        path={ROUTE_NAMES.phoneList}
+        element={<TelephoneListContainer />}
+      />
+      <Route path={ROUTE_NAMES.calculator} element={<CalculatorContainer />} />
     </Routes>
   );
 };
