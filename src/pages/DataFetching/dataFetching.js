@@ -5,47 +5,53 @@ import PokemonCard from "../../components/PokemonCard/PokemonCard";
 import { useDispatch } from "react-redux";
 import { useEffect, useState, useCallback } from "react";
 import { loadPokemons } from "./reducers";
+import { useSelector } from "react-redux";
+import { FetchingSelector } from "./selector";
+import { deletePokemon, resetPokemons } from "./reducers";
+import { useNavigate } from "react-router-dom";
+import ROUTE_NAMES from "../../router/routeNames";
 
 const DataFetching = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+
   // const { data, load, error, hundleDataLoad, handleReset } = useFetching(
   //   getPoke,
   //   [],
   //   false
   // );
 
-  const [data, setData] = useState([]);
-  const [load, setLoad] = useState(false);
-  const [error, setError] = useState(null);
+  const { pokemonsы, isLoading, error } = useSelector(FetchingSelector);
 
-  const delay = (delay) => new Promise((resolve) => setTimeout(resolve, delay));
+  useEffect(() => {
+    dispatch(loadPokemons());
+  }, []);
 
-  const hundleDataLoad = useCallback(async () => {
-    try {
-      setLoad(true);
-      await delay(2000);
-      const { payload } = await dispatch(loadPokemons());
-      setData(payload);
-    } catch (error) {
-      setError(error.message);
-    } finally {
-      setLoad(false);
-    }
+  // const hundleDataLoad = useCallback(() => {
+  //   dispatch(loadPokemons());
+  // }, []);
+
+  const handleDeletePokemon = useCallback((id) => {
+    dispatch(deletePokemon(id));
   }, []);
 
   const handleReset = useCallback(() => {
-    return setData([]);
+    dispatch(resetPokemons());
   }, []);
+
+  const handlePokemonsDetail = (pokemonName) => {
+    navigate(`${ROUTE_NAMES.pokemons_REDUX_THUNK}/${pokemonName}`);
+  };
 
   return (
     <div>
       <h2>Data Fetching</h2>
       <div style={{ display: "flex", justifyContent: "space-evenly" }}>
-        <button onClick={hundleDataLoad}>Load</button>
+        {/* <button onClick={hundleDataLoad}>Load</button> */}
         <button onClick={handleReset}>Reset</button>
       </div>
 
-      {load ? (
+      {isLoading ? (
         <div style={{ position: "absolute", top: "50%", left: "50%" }}>
           <Spinner />
         </div>
@@ -53,7 +59,10 @@ const DataFetching = () => {
         <div
           style={{ display: "flow-root", maxWidth: "710px", margin: "0 auto" }}
         >
-          {data.map((item) => {
+          <h1 style={{ position: "absolute", top: "50%", left: "50%" }}>
+            {error}
+          </h1>
+          {pokemonsы?.map((item) => {
             return (
               <div
                 style={{ display: "inline-block", marginLeft: "10px" }}
@@ -63,13 +72,15 @@ const DataFetching = () => {
                   name={item.name}
                   image={item.image}
                   experience={item.experience}
+                  handleDeletePokemon={handleDeletePokemon}
+                  id={item.id}
+                  handlePokemonsDetail={handlePokemonsDetail}
                 />
               </div>
             );
           })}
         </div>
       )}
-      <div>{error}</div>
     </div>
   );
 };

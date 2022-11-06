@@ -1,0 +1,23 @@
+.wrapper{
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    text-align: center;
+    border: 2px solid black;
+    width: 30%;
+    margin-top: 40px;
+}
+
+.timerWrapper{
+width: 30%;
+display: flex;
+justify-content: center;
+text-align: center;
+border: 2px solid black;
+margin-top: 40px;
+}
+
+.timerCount{
+font-size: 20px;
+font-weight: 500;
+}

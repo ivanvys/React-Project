@@ -1,0 +1,18 @@
+.wrapper {
+    width: 30%;
+    border: 2px solid black
+}
+
+.screen{
+    margin-top: 10px;
+    border: 2px solid black
+}
+
+.buttonsArea{
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr
+}
+
+.buttons {
+    display:inline-block
+}
