@@ -7,6 +7,7 @@ const CalculatorComponent = ({
   handleSetTotalValue,
   handleCalculatorValue,
   handleResetScreen,
+  handleRemoveTheLastCharacter,
 }) => {
   return (
     <div>
@@ -19,7 +20,13 @@ const CalculatorComponent = ({
               <button
                 key={item}
                 className={styles.buttons}
-                onClick={() => handleCalculatorValue(item)}
+                onClick={() => {
+                  if (typeof item === "number") {
+                    handleCalculatorValue(item);
+                  } else if (typeof screen[0] === "number") {
+                    handleCalculatorValue(item);
+                  }
+                }}
               >
                 {item}
               </button>
@@ -27,6 +34,7 @@ const CalculatorComponent = ({
           })}
           <button onClick={handleSetTotalValue}>=</button>
           <button onClick={handleResetScreen}>C</button>
+          <button onClick={handleRemoveTheLastCharacter}>Remove</button>
         </div>
       </div>
     </div>

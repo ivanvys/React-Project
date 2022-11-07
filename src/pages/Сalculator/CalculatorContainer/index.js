@@ -29,12 +29,20 @@ const CalculatorContainer = () => {
     });
 
     setScreen((state) => {
-      const newState = state.filter((item) => item !== "0");
-      return [...newState, data];
+      if (
+        typeof state[state.length - 1] === "string" &&
+        typeof data === "string"
+      ) {
+        const newArr = state.slice(0, state.length - 1);
+        return [...newArr, data];
+      } else {
+        const stateWithoutZero = state.filter((item) => item !== "0");
+        return [...stateWithoutZero, data];
+      }
     });
   }, []);
 
-  const result = () => {
+  const fnExpression = () => {
     const copyUnitedNumber = [...unitedNumber];
 
     const copyUnitedNumberReverse = copyUnitedNumber.reverse();
@@ -71,25 +79,29 @@ const CalculatorContainer = () => {
   };
 
   const handleSetTotalValue = useCallback(() => {
-    result()[1] === "+" &&
+    fnExpression()[1] === "+" &&
       setTotalValue(() =>
         screen.length < 3
-          ? totalValue + result()[2]
-          : (totalValue || result()[0]) + result()[2]
+          ? totalValue + fnExpression()[2]
+          : (totalValue || fnExpression()[0]) + fnExpression()[2]
       );
 
-    result()[1] === "-" &&
+    fnExpression()[1] === "-" &&
       setTotalValue(() =>
         screen.length < 3
-          ? totalValue - result()[2]
-          : (totalValue || result()[0]) - result()[2]
+          ? totalValue - fnExpression()[2]
+          : (totalValue || fnExpression()[0]) - fnExpression()[2]
       );
 
-    result()[1] === "*" &&
-      setTotalValue(() => (totalValue || result()[0]) * result()[2]);
+    fnExpression()[1] === "*" &&
+      setTotalValue(
+        () => (totalValue || fnExpression()[0]) * fnExpression()[2]
+      );
 
-    result()[1] === "/" &&
-      setTotalValue(() => (totalValue || result()[0]) / result()[2]);
+    fnExpression()[1] === "/" &&
+      setTotalValue(
+        () => (totalValue || fnExpression()[0]) / fnExpression()[2]
+      );
   }, [screen]);
 
   const handleResetScreen = useCallback(() => {
@@ -97,6 +109,12 @@ const CalculatorContainer = () => {
     setTotalValue(0);
     setUnitedNumber([]);
   }, []);
+
+  const handleRemoveTheLastCharacter = useCallback(() => {
+    screen.length > 1
+      ? setScreen((state) => state.slice(0, state.length - 1))
+      : setScreen(["0"]);
+  }, [screen]);
 
   return (
     <div>
@@ -107,6 +125,7 @@ const CalculatorContainer = () => {
         handleSetTotalValue={handleSetTotalValue}
         handleCalculatorValue={handleCalculatorValue}
         handleResetScreen={handleResetScreen}
+        handleRemoveTheLastCharacter={handleRemoveTheLastCharacter}
       />
     </div>
   );
