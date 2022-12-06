@@ -39,7 +39,7 @@ const TelephoneListContainer = () => {
       const foundPersonIndex = copyPhoneList.findIndex(
         (item) => item.id === id
       );
-      copyPhoneList.splice(foundPersonIndex, 1); //<---splice мутирует, и это удаленный элемент
+      copyPhoneList.splice(foundPersonIndex, 1); //<---splice мутирует, и это удаленный элемент(индекс)
       return copyPhoneList; //<--- это уже массив без элемента
     });
   }, []);

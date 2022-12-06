@@ -10,7 +10,7 @@ const CalculatorComponent = ({
   handleRemoveTheLastCharacter,
 }) => {
   return (
-    <div>
+    <div className={styles.upperWrapper}>
       <div className={styles.wrapper}>
         <div className={styles.screen}>{screen}</div>
         <div className={styles.screen}>{totalValue}</div>
@@ -32,9 +32,18 @@ const CalculatorComponent = ({
               </button>
             );
           })}
-          <button onClick={handleSetTotalValue}>=</button>
-          <button onClick={handleResetScreen}>C</button>
-          <button onClick={handleRemoveTheLastCharacter}>Remove</button>
+          <button onClick={handleSetTotalValue} className={styles.buttons}>
+            =
+          </button>
+          <button onClick={handleResetScreen} className={styles.buttons}>
+            C
+          </button>
+          <button
+            onClick={handleRemoveTheLastCharacter}
+            className={styles.buttons}
+          >
+            Remove
+          </button>
         </div>
       </div>
     </div>
