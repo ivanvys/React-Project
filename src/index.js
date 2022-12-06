@@ -1,5 +1,5 @@
 import ReactDOM from "react-dom/client";
-import { BrowserRouter } from "react-router-dom";
+import { HashRouter } from "react-router-dom";
 import MainLayout from "./components/Layouts";
 import "./index.css";
 import { Provider } from "react-redux";
@@ -12,7 +12,7 @@ const persistor = persistStore(store);
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
-  <BrowserRouter>
+  <HashRouter>
     <Provider store={store}>
       <PersistGate loading={null} persistor={persistor}>
         <MainLayout>
@@ -20,5 +20,5 @@ root.render(
         </MainLayout>
       </PersistGate>
     </Provider>
-  </BrowserRouter>
+  </HashRouter>
 );

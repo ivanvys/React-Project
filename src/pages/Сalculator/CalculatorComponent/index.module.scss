@@ -1,16 +1,28 @@
+.upperWrapper{
+    display: flex;
+    justify-content: center;
+    text-align: center;
+}
+
 .wrapper {
-    width: 30%;
-    border: 2px solid black
+    position: relative;
+    top: 5vh;
+    border: 2px solid black;
+    border-radius: 10px;
 }
 
 .screen{
     margin-top: 10px;
+    margin-bottom: 10px;
     border: 2px solid black
 }
 
 .buttonsArea{
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-column-gap: 3px;
+    grid-row-gap: 3px
+
 }
 
 .buttons {

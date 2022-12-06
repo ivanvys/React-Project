@@ -3,7 +3,7 @@ import CalculatorComponent from "../CalculatorComponent";
 
 const CalculatorContainer = () => {
   const [screen, setScreen] = useState(["0"]);
-  const [totalValue, setTotalValue] = useState(0);
+  const [totalValue, setTotalValue] = useState("0");
   const [unitedNumber, setUnitedNumber] = useState([]);
   const [buttons] = useState([
     0,
@@ -51,7 +51,7 @@ const CalculatorContainer = () => {
     let operator = "";
     let onTheRightOfEquation = "";
 
-    for (let i = 0; i <= unitedNumber.length; i++) {
+    for (let i = 0; i < unitedNumber.length; i++) {
       if (typeof unitedNumber[i] === "number") {
         onTheLeftOfEquation += unitedNumber[i];
       } else {
@@ -60,7 +60,7 @@ const CalculatorContainer = () => {
       }
     }
 
-    for (let i = 0; i <= copyUnitedNumberReverse.length; i++) {
+    for (let i = 0; i < copyUnitedNumberReverse.length; i++) {
       if (typeof copyUnitedNumberReverse[i] === "number") {
         onTheRightOfEquation += copyUnitedNumberReverse[i];
       } else {
@@ -81,43 +81,50 @@ const CalculatorContainer = () => {
   const handleSetTotalValue = useCallback(() => {
     fnExpression()[1] === "+" &&
       setTotalValue(() =>
-        screen.length < 3
-          ? totalValue + fnExpression()[2]
-          : (totalValue || fnExpression()[0]) + fnExpression()[2]
+        typeof totalValue === "string"
+          ? fnExpression()[0] + fnExpression()[2]
+          : totalValue + fnExpression()[2]
       );
 
     fnExpression()[1] === "-" &&
       setTotalValue(() =>
-        screen.length < 3
-          ? totalValue - fnExpression()[2]
-          : (totalValue || fnExpression()[0]) - fnExpression()[2]
+        typeof totalValue === "string"
+          ? fnExpression()[0] - fnExpression()[2]
+          : totalValue - fnExpression()[2]
       );
 
     fnExpression()[1] === "*" &&
-      setTotalValue(
-        () => (totalValue || fnExpression()[0]) * fnExpression()[2]
+      setTotalValue(() =>
+        typeof totalValue === "string"
+          ? fnExpression()[0] * fnExpression()[2]
+          : totalValue * fnExpression()[2]
       );
 
     fnExpression()[1] === "/" &&
-      setTotalValue(
-        () => (totalValue || fnExpression()[0]) / fnExpression()[2]
+      setTotalValue(() =>
+        typeof totalValue === "string"
+          ? fnExpression()[0] / fnExpression()[2]
+          : totalValue / fnExpression()[2]
       );
   }, [screen]);
 
   const handleResetScreen = useCallback(() => {
     setScreen(["0"]);
-    setTotalValue(0);
+    setTotalValue("0");
     setUnitedNumber([]);
   }, []);
 
   const handleRemoveTheLastCharacter = useCallback(() => {
-    screen.length > 1
-      ? setScreen((state) => state.slice(0, state.length - 1))
-      : setScreen(["0"]);
+    if (screen.length > 1) {
+      setScreen((state) => state.slice(0, state.length - 1));
+      setUnitedNumber((state) => state.slice(0, state.length - 1));
+    } else {
+      setScreen(["0"]);
+    }
   }, [screen]);
 
   return (
-    <div>
+    <>
       <CalculatorComponent
         screen={screen}
         totalValue={totalValue}
@@ -127,7 +134,7 @@ const CalculatorContainer = () => {
         handleResetScreen={handleResetScreen}
         handleRemoveTheLastCharacter={handleRemoveTheLastCharacter}
       />
-    </div>
+    </>
   );
 };
 
